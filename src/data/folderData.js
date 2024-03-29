@@ -1,4 +1,4 @@
-const explorer = {
+const explorer = [{
     id: "1",
     name: "root",
     isFolder: true,
@@ -67,6 +67,75 @@ const explorer = {
             items: []
         }
     ]
-};
+}, {
+    id: "111",
+    name: "root2",
+    isFolder: true,
+    items: [
+        {
+            id: "12",
+            name: "public",
+            isFolder: true,
+            items: [
+                {
+                    id: "13",
+                    name: "public nested 1",
+                    isFolder: true,
+                    items: [
+                        {
+                            id: "14",
+                            name: "index.html",
+                            isFolder: false,
+                            items: []
+                        },
+                        {
+                            id: "15",
+                            name: "hello.html",
+                            isFolder: false,
+                            items: []
+                        }
+                    ]
+                },
+                {
+                    id: "16",
+                    name: "public_nested_file",
+                    isFolder: false,
+                    items: []
+                }
+            ]
+        },
+        {
+            id: "17",
+            name: "src",
+            isFolder: true,
+            items: [
+                {
+                    id: "18",
+                    name: "App.js",
+                    isFolder: false,
+                    items: []
+                },
+                {
+                    id: "19",
+                    name: "Index.js",
+                    isFolder: false,
+                    items: []
+                },
+                {
+                    id: "20",
+                    name: "styles.css",
+                    isFolder: false,
+                    items: []
+                }
+            ]
+        },
+        {
+            id: "21",
+            name: "package.json",
+            isFolder: false,
+            items: []
+        }
+    ]
+}];
 
 export default explorer;

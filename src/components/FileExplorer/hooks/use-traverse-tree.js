@@ -16,27 +16,41 @@ const useTraverseTree = () => {
         return { ...tree, items: latestNode };
     }
 
-    function deleteNode(tree, nodeId) {
-        if (!tree || !nodeId) {
-            return tree;
-        }
+    function deleteNode(explorerData, nodeId) {
+        return explorerData.map(tree => {
+            if (tree.id === nodeId) {
+                // If the current object matches the nodeId, filter it out
+                return null;
+            } else if (tree.items && tree.items.length > 0) {
+                // If the current object has nested items, recursively filter them
+                const filteredItems = deleteNode(tree.items, nodeId);
+                return {
+                    ...tree,
+                    items: filteredItems.filter(item => item !== null)
+                };
+            } else {
+                // If the current object doesn't have nested items, keep it
+                return tree;
+            }
+        }).filter(tree => tree !== null);
+    }
 
-        if (tree.id === nodeId) {
-            return null;
-        }
-        const updatedItems = tree.items.map((item) => deleteNode(item, nodeId));
-        const latestNode = updatedItems.filter((item) => item !== null);
-        return { ...tree, items: latestNode };
-    };
+
+    // const updateObjectById = (arr, nodeId, newTree) => {
+    //     return arr.map(item => {
+    //         if (item.id === nodeId) {
+    //             return newTree;
+    //         }
+    //         const updatedItems = updateObjectById(item.items, nodeId, newTree);
+    //         return { ...item, items: updatedItems };
+    //         return item;
+    //     });
+    // };
 
     const updateNode = (tree, nodeId, item) => {
         if (tree.id === nodeId) {
             return { ...tree, name: item };
         }
-        // else if (tree.items && tree.items.length > 0) {}
-        // Recursively traverse the items
-        // const updatedItems = tree.items.map(updateNodeHelper);
-        // return { ...tree, items: updatedItems };
         let latestNode = [];
         latestNode = tree.items.map((ob) => {
             return updateNode(ob, nodeId, item);

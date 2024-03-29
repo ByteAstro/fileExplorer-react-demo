@@ -10,33 +10,50 @@ export default function FileExplorer() {
 
     const { insertNode, deleteNode, updateNode } = useTraverseTree();
 
-    useEffect(() => {
-        console.log(explorerData);
-    }, [explorerData]);
+    // useEffect(() => {
+    //     console.log(explorerData[1]);
+    // }, [explorerData]);
 
-    const handleInsertNode = (folderId, item, isFolder) => {
-        const newTree = insertNode(explorerData, folderId, item, isFolder);
-        setExplorerData(newTree);
+    const updateObjectById = (arr, nodeId, newTree) => {
+        return arr.map(item => {
+            if (item.id === nodeId) {
+                return newTree;
+            }
+            const updatedItems = updateObjectById(item.items, nodeId, newTree);
+            return { ...item, items: updatedItems };
+            return item;
+        });
+    };
+
+    const handleInsertNode = (tree, nodeId, item, isFolder) => {
+        const newTree = insertNode(tree, nodeId, item, isFolder);
+        setExplorerData(updateObjectById(explorerData, nodeId, newTree));
+        // console.log(updateObjectById(explorerData, nodeId, newTree));
     };
 
     const handleDeleteNode = (nodeId) => {
-        const newTree = deleteNode(explorerData, nodeId);
-        setExplorerData(newTree);
+        const newTreeArrays = deleteNode(explorerData, nodeId);
+        setExplorerData(newTreeArrays);
+        // console.log(newTreeArrays);
     }
 
-    const handleUpdateNode = (nodeId, item) => {
-        const newTree = updateNode(explorerData, nodeId, item);
-        setExplorerData(newTree);
+    const handleUpdateNode = (tree, nodeId, item) => {
+        const newTree = updateNode(tree, nodeId, item);
+        setExplorerData(updateObjectById(explorerData, nodeId, newTree))
+        // console.log(updateObjectById(explorerData, nodeId, newTree));
     }
 
     return (
         <div className='p-3 min-h-screen bg-slate-900 text-white'>
-            <Folder
-                explorer={explorerData}
-                handleInsertNode={handleInsertNode}
-                handleDeleteNode={handleDeleteNode}
-                handleUpdateNode={handleUpdateNode}
-            />
+            {explorerData.map((explorer, idx) => (
+                <Folder
+                    key={idx}
+                    explorer={explorer}
+                    handleInsertNode={handleInsertNode}
+                    handleDeleteNode={handleDeleteNode}
+                    handleUpdateNode={handleUpdateNode}
+                />
+            ))}
         </div>
     )
 }
