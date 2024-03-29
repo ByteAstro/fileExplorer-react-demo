@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 
 import explorer from '../../data/folderData';
-import './FileExplorer.css'
 import Folder from './Folder';
 
 export default function FileExplorer() {
     const [explorerData, setExplorerData] = useState(explorer);
 
     return (
-        <div>
+        <div className='p-3 min-h-screen bg-slate-900 text-white'>
             <Folder explorer={explorerData} />
         </div>
     )
